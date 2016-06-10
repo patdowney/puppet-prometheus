@@ -14,12 +14,14 @@ class prometheus::node_exporter::config(
           group   => 'root',
           content => template('prometheus/node_exporter.upstart.erb'),
         }
-        file { '/etc/init.d/node_exporter':
-          ensure => link,
-          target => '/lib/init/upstart-job',
-          owner  => 'root',
-          group  => 'root',
-          mode   => '0755',
+        if $::operatingsystem == 'Ubuntu' {
+          file { '/etc/init.d/node_exporter':
+            ensure => link,
+            target => '/lib/init/upstart-job',
+            owner  => 'root',
+            group  => 'root',
+            mode   => '0755',
+          }
         }
       }
       'systemd' : {

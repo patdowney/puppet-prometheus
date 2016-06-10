@@ -14,12 +14,14 @@ class prometheus::alert_manager::config(
           group   => 'root',
           content => template('prometheus/alert_manager.upstart.erb'),
         }
-        file { '/etc/init.d/alert_manager':
-          ensure => link,
-          target => '/lib/init/upstart-job',
-          owner  => 'root',
-          group  => 'root',
-          mode   => '0755',
+        if $::operatingsystem == 'Ubuntu' {
+          file { '/etc/init.d/alert_manager':
+            ensure => link,
+            target => '/lib/init/upstart-job',
+            owner  => 'root',
+            group  => 'root',
+            mode   => '0755',
+          }
         }
       }
       'systemd' : {
