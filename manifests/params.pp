@@ -55,8 +55,10 @@ class prometheus::params {
       $init_style = 'systemd'
     }
   } elsif $::operatingsystem =~ /Scientific|CentOS|RedHat|OracleLinux/ {
-    if versioncmp($::operatingsystemrelease, '7.0') < 0 {
+    if versioncmp($::operatingsystemrelease, '6.0') < 0 {
       $init_style = 'sysv'
+    } elsif versioncmp($::operatingsystemrelease, '7.0') < 0 {
+      $init_style = 'upstart'
     } else {
       $init_style  = 'systemd'
     }
